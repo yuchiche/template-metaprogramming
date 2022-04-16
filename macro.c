@@ -5,7 +5,7 @@ int ia = 10086, ib = 10001;
 double da = 1.0086, db = 1.0001;
 char stra[] = "10086", strb[] = "10001";
 
-#define max(a, b) (a) < (b) ? (b) : (a)
+#define max(a, b) ((a) < (b) ? (b) : (a))
 
 int main()
 {
@@ -14,6 +14,8 @@ int main()
     printf("max(stra, strb) = %s\n", max(stra, strb));
     printf("max(ia == ib, ia) = %d\n", max(ia == ib, ia));
     printf("10010 + max(ia, ib) = %d\n", 10010 + max(ia, ib));
+    printf("max(ia++, ib++) = %d, ia = %d, ib = %d\n", max(ia++, ib++), ia, ib);
+    printf("ia = %d, ib = %d\n", ia, ib);
 
     return 0;
 }
