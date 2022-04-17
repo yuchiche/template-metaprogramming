@@ -58,9 +58,29 @@ struct CommonType<T, T>
     using Type = T;
 };
 
-template <typename T1, typename T2, typename R = CommonType<T1, T2>>
+template<typename T>
+struct LessThanComparable
+{
+    template <typename U, typename = decltype(std::declval<U>() < std::declval<U>())>
+    static std::true_type test(void*);
+    template <typename U>
+    static std::false_type test(...);
+
+    static constexpr bool value = decltype(test<T>(nullptr))::value;
+};
+
+template <typename T, typename LTC = LessThanComparable<T>>
+T max(T a, T b)
+{
+    static_assert(LTC::value, "T is not less than comparable.");
+    return a < b ? b : a;
+}
+
+template <typename T1, typename T2, typename R = CommonType<T1, T2>,
+    typename LTCR = LessThanComparable<R>>
 typename R::Type max(T1 a, T2 b)
 {
+    static_assert(LTCR::value, "Common type is not less than comparable.");
     return a < b ? b : a;
 }
 
